@@ -1,0 +1,29 @@
+# Workflow API version
+apiVersion: io.orquestra.workflow/1.0.0
+# Prefix for workflow ID
+name: x-gate
+
+# List components needed by workflow.
+imports:
+- name: x-gate
+  type: git
+  parameters:
+    repository: "git@github.com:<your_own_repo>/training-03.git"
+    branch: "main"
+
+# List the steps in the workflow
+steps:
+- name: run-circuit
+  config:
+    runtime:
+      language: python3
+      imports: [x-gate] 
+      parameters:
+        file: x-gate/steps/x_gate.py
+        function: main
+  outputs:
+  - name: results
+    type: output
+
+types:
+- output
